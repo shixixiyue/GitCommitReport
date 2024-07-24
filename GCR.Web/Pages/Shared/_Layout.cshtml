@@ -1,0 +1,47 @@
+﻿@{
+    var F = Html.F();
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>周报生成器</title>
+
+    @F.RenderCss()
+    @F.RenderCssEx()
+    @RenderSection("head", false)
+</head>
+<body>
+    @Html.AntiForgeryToken()
+
+    @{
+        var pm = F.PageManager;
+
+        // 主题
+        var themeCookie = Context.Request.Cookies["Theme"];
+        if (!String.IsNullOrEmpty(themeCookie))
+        {
+            string themeValue = themeCookie;
+
+            Theme theme;
+            if (Enum.TryParse<Theme>(themeValue, true, out theme))
+            {
+                pm.CustomTheme(String.Empty);
+                pm.Theme(theme);
+            }
+            else
+            {
+                pm.CustomTheme(themeValue);
+            }
+        }
+    }
+    @F.PageManager
+
+    @RenderSection("body", true)
+
+    @F.RenderScript()
+    <script src="~/res/microsoft/signalr/signalr.min.js"></script>
+    <script src="~/js/JSBase.js"></script>
+    @RenderSection("script", false)
+</body>
+</html>

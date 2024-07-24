@@ -1,0 +1,25 @@
+﻿@page
+@model GCR.Web.Pages.EditNewModel
+@{
+    ViewBag.Title = "";
+    var F = Html.F();
+}
+
+@section body {
+    <f:Form ID="FormNew" IsFluid="true" NoBorderAndHeader BodyPadding="10" LabelAlign="@LabelAlign.Top">
+        <Toolbars><f:Toolbar>
+             <Items>
+                <f:Label ID="labtoday" Label="今天"></f:Label>
+                 <f:ToolbarFill></f:ToolbarFill>
+                 <f:ToolbarSeparator></f:ToolbarSeparator>
+                 <f:Button Text="保存" BtnStyles="@BtnStyles.主要" IconFont="@IconFont.Save"
+                           OnClick="OnSaveClick"></f:Button>
+             </Items>
+            </f:Toolbar></Toolbars>
+        <Items>
+            <f:TextBox ID="GCR_B1_10" Label="标题"></f:TextBox>
+            <f:DatePicker ID="GCR_B1_20" Label="开始日期"></f:DatePicker>
+            <f:DatePicker ID="GCR_B1_30" Label="结束日期"></f:DatePicker>
+        </Items>
+    </f:Form>
+}

@@ -1,0 +1,130 @@
+﻿
+.cardicon {
+    color: var(--teal) !important;
+    font-size: 0.95rem;
+}
+
+.cardimg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* 其他选项有 contain, fill, scale-down, none */
+    object-position: center; /* 使图像居中显示，可以根据需要调整 */
+    filter: blur(1px);
+    transition: all .2s;
+}
+/*列表样式*/
+#Grid1 ul.f-grid-card-list {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* 将网格分为两列，每列宽度相等 */
+    grid-gap: 1rem; /* 设置列之间的间距 */
+    padding: 1rem;
+    list-style-type: none;
+}
+
+#Grid1 li.f-grid-card-row {
+    /*width: 50%;*/ /* 或者设置为其他合适的宽度比例 */
+    box-sizing: border-box; /* 让边框和填充不影响元素的宽度 */
+    min-width: 100px;
+    /*border-color: var(--cyan);*/
+    /*border-style: dashed;*/
+    border-radius: 4px;
+    /*font-size: .8rem;*/
+    background: var(--light);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    transition: all .3s;
+}
+
+#Grid1 li.f-grid-card-row.f-grid-row-selected {
+    border-color: var(--cyan);
+    border-style: dashed;
+    border-radius: 4px;
+}
+.card {
+    height: 6rem;
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    flex-direction: column;
+    cursor: pointer;
+    gap: 1rem;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    color: var(--color-PrimaryText);
+    font-weight: 600;
+    transition: all .5s;
+    width: 98%;
+    font-size: 2rem;
+}
+
+.card .btns {
+    text-align: right;
+    display: flex;
+    justify-content: right;
+    flex-grow: 1;
+    gap: 1rem;
+}
+
+.card .btns i {
+    font-size: 1.2rem;
+    transition: all .2s;
+}
+
+.card .btns i:hover {
+    transform: scale(1.5);
+    transform-origin: center center;
+    color: var(--color-Primary) !important;
+}
+
+.f-state-active .f-icon,
+.f-state-active,
+.f-widget-content .f-state-active,
+.f-widget-header .f-state-active {
+    color: unset !important;
+}
+
+.body {
+    width: 98%;
+    display: flex;
+    gap: 10px;
+    flex:1;
+}
+
+.body span {
+    transition: all .2s;
+    font-size:1rem;
+}
+
+.defaultPNG {
+    --size: 5rem;
+    color: var(--color-SecondaryText) !important;
+    font-size: var(--size);
+    line-height: var(--size);
+}
+
+/*鼠标经过*/
+#Grid1 li.f-grid-card-row.f-state-hover {
+    color: unset !important;
+    /*transform: translate3d(0, -2%, 0);*/
+    /*box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);*/
+    background: var(--color-BorderBase);
+}
+
+#Grid1 li.f-grid-card-row.f-state-hover .f-icon {
+    color: unset !important;
+}
+
+#Grid1 li.f-grid-card-row.f-state-hover .title {
+    /*font-size: 2.2rem;*/
+}
+#Grid1 li.f-grid-card-row.f-state-hover .cardimg {
+    filter: unset;
+}
+#Grid1 li.f-grid-card-row.f-state-hover .body span {
+    opacity:0.8;
+}

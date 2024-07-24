@@ -1,0 +1,54 @@
+﻿@page
+@model GCR.Web.Pages.SetUpModel
+@{
+    ViewBag.Title = "";
+    var F = Html.F();
+}
+@section body {
+    <f:Form ID="Form1" IsViewPort="true" NoBorderAndHeader BodyPadding="10" LabelAlign="@LabelAlign.Top" AutoScroll="true">
+        <Items>
+            <f:RadioButtonList ID="@nameof(GCR.Model.MsGCR_A1.GCR_A1_10)"
+                               Label="平台类型" SelectedValue="1" Required="true"
+                               OnSelectedIndexChanged="OnA110Change">
+                <f:RadioItem Text="Gitea" Value="1" />
+                <f:RadioItem Text="Gitee" Value="2" />
+                <f:RadioItem Text="GitHub" Value="3" />
+            </f:RadioButtonList>
+            <f:TextBox ID="@nameof(GCR.Model.MsGCR_A1.GCR_A1_20)"
+                       Label="平台地址" EmptyText="最后不用带 '\' " Required="true"></f:TextBox>
+            <f:TextBox ID="@nameof(GCR.Model.MsGCR_A1.GCR_A1_30)"
+                       Label="用户名" EmptyText="请输入用户名" Required="true"></f:TextBox>
+            <f:TextBox ID="@nameof(GCR.Model.MsGCR_A1.GCR_A1_40)"
+                       Label="Token" EmptyText="请输入Token" Required="true"></f:TextBox>
+            <f:RadioButtonList ID="@nameof(GCR.Model.MsGCR_A1.GCR_A1_50)"
+                               Label="项目" SelectedValue="1" Required="true"
+                               OnSelectedIndexChanged="OnA150Change">
+                <f:RadioItem Text="全部项目" Value="1" />
+                <f:RadioItem Text="指定项目" Value="0" Enabled="false" />
+            </f:RadioButtonList>
+            <f:DropDownList Enabled="false" ID="@nameof(GCR.Model.MsGCR_A1.GCR_A1_60)" Label="选择项目(点击测试刷新)" EnableMultiSelect="true" EnableCheckBoxSelect="true">
+            </f:DropDownList>
+            <f:TextArea ID="@nameof(GCR.Model.MsGCR_A1.GCR_A1_80)"
+                        Label="AI角色" EmptyText="优化AI角色信息，生成的更准确" Height="250">
+            </f:TextArea>
+        </Items>
+        <Toolbars>
+            <f:Toolbar Position="@ToolbarPosition.Top">
+                <Items>
+                    <f:ToolbarFill></f:ToolbarFill>
+                    <f:Button Text="保存" BtnStyles="@BtnStyles.主要" IconFont="@IconFont.Save"
+                              OnClick="OnSaveClick"></f:Button>
+                    <f:Button ID="btnTest" Text="测试连接" IconFont="@IconFont._Link"
+                              OnClick="OnTestClick"></f:Button>
+                </Items>
+            </f:Toolbar>
+        </Toolbars>
+    </f:Form>
+}
+@section script{
+    <script>
+        F.ready(() => {
+            //F.doPostBack({ eventTarget: 'btnTest', eventArgument: 'click', url: '?handler=RenderRepos', disableControl:'btnTest'});
+        })
+    </script>
+}

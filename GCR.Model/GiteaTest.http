@@ -1,0 +1,29 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+@hostname=http://192.168.123.44
+@port=9000
+//@hostname=http://192.168.123.37
+//@port=80
+@host={{hostname}}:{{port}}
+@GiteaToken = 838866be705cc14e13c9f03b637e29a1624983da
+
+# 按分支得到所有的commit
+GET {{host}}/api/v1/repos/HDZX/PCBA_MES/commits?sha=%2325
+#GET http://192.168.123.44:9000/api/v1/repos/HDZX/PCBA_MES/commits?sha=%2325
+# Content-Type: application/json
+Authorization: token {{GiteaToken}}
+accept: application/json
+
+###
+
+# 得到所有的分支
+GET {{host}}/api/v1/repos/HDZX/CQS/branches
+Authorization: token {{GiteaToken}}
+accept: application/json
+
+###
+
+#该用户的订阅
+GET {{host}}/api/v1/users/shiyue/subscriptions
+Authorization: token {{GiteaToken}}
+accept: application/json
+

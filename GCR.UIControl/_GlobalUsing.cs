@@ -1,0 +1,9 @@
+﻿global using FineUICore;
+global using GCR.BLL;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Mvc.RazorPages;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Primitives;
+global using Newtonsoft.Json.Linq;
+global using NuGet.Protocol;

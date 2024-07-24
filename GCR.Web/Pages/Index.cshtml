@@ -1,0 +1,245 @@
+﻿@page
+@model GCR.Web.Pages.IndexModel
+@{
+    ViewBag.Title = "";
+    var F = Html.F();
+}
+@section head {
+    <style>
+    </style>
+    <link href="~/GCRB1/Index.css" rel="stylesheet" />
+}
+@{
+    //主页面按钮
+    async Task mainToolbar()
+    {
+        <Items>
+            <f:ToolbarFill></f:ToolbarFill>
+            <f:Button ID="btn1" BtnStyles="@BtnStyles.主要" IconFont="@IconFont.Plus" Text="新增"
+                      OnClientClick="F.ui.winnew.show();" />
+            <f:ToolbarSeparator></f:ToolbarSeparator>
+            <f:Button Text="设置" IconFont="@IconFont._Gear"
+                      OnClientClick="F.ui.winsetup.show();"></f:Button>
+        </Items>;
+    }
+}
+@section body {
+    <f:Panel IsViewPort="true" NoBorderAndHeader Layout="@LayoutType.HBox"
+             BoxConfigChildMargin="5" BoxConfigPadding="5">
+        <Items>
+            <f:Grid ID="Grid1" BoxFlex="1" Title="项目" DisplayType="@GridDisplayType.Card" CardRendererFunction="renderCard"
+                    DataIDField="@nameof(GCR.Model.MsGCR_B1.GCR_B1_AUTOID)">
+                <Toolbars>
+                    <f:Toolbar Position="@ToolbarPosition.Top">
+                        @mainToolbar()
+                    </f:Toolbar>
+                </Toolbars>
+                <Columns>
+                    <f:RenderField DataField="@nameof(GCR.Model.MsGCR_B1.GCR_B1_10)"></f:RenderField>
+                    <f:RenderField DataField="@nameof(GCR.Model.MsGCR_B1.GCR_B1_20)"></f:RenderField>
+                    <f:RenderField DataField="@nameof(GCR.Model.MsGCR_B1.GCR_B1_30)"></f:RenderField>
+                </Columns>
+            </f:Grid>
+            <f:Panel BoxFlex="4" Title="对话" Layout="@LayoutType.HBox"
+                     BoxConfigChildMargin="0" BoxConfigPadding="0" NoBorderAndHeader>
+                <Items>
+                    <f:Panel NoBorderAndHeader BoxFlex="2" Layout="@LayoutType.VBox"
+                             BoxConfigChildMargin="0" BoxConfigPadding="0">
+                        <Items>
+                            <f:Grid ID="Grid2" BoxFlex="1" Title="提交记录" EnableTextSelection="true">
+                                <Tools>
+                                    <f:Tool Text="重新获取" IconFont="@IconFont._Refresh" OnClick="OnCommitRefresh"></f:Tool>
+                                    <f:ToolbarSeparator></f:ToolbarSeparator>
+                                    <f:Tool Text="生成报告" IconFont="@IconFont.Edit" OnClick="OnCommitReport"></f:Tool>
+                                </Tools>
+                                <Columns>
+                                    <f:RenderField DataField="branche.gitRepo.full_name" HeaderText="项目" ShowToolTip="true" 
+                                                   Width="160"></f:RenderField>
+                                    <f:RenderField DataField="branche.name" HeaderText="分支"
+                                                   Width="100"></f:RenderField>
+                                    <f:RenderField DataField="message" HeaderText="提交信息" ShowToolTip="true"
+                                                   ExpandUnusedSpace="true"></f:RenderField>
+                                    <f:RenderField DataField="created" HeaderText="创建时间"
+                                                   Width="180"></f:RenderField>
+                                </Columns>
+                            </f:Grid>
+                            <f:Form NoBorderAndHeader Hidden="true">
+                                <Items>
+                                    <f:TextArea ID="txtInput" EmptyText="会话" AutoGrowHeight="true" AutoGrowHeightMax="300"></f:TextArea>
+                                </Items>
+                                <Toolbars>
+                                    <f:Toolbar Position="@ToolbarPosition.Bottom">
+                                        <Items>
+                                            <f:ToolbarFill></f:ToolbarFill>
+                                            <f:Button Text="发送" IconFont="@IconFont.Send"></f:Button>
+                                        </Items>
+                                    </f:Toolbar>
+                                </Toolbars>
+                            </f:Form>
+                        </Items>
+                    </f:Panel>
+                    <f:ContentPanel Title="AI总结" MarginLeft="10" BoxFlex="3" ID="codePanel" AutoScroll="true" BodyPadding="20">
+                        <Tools>
+                            <f:Tool IconFont="@IconFont.Copy" Text="复制(Markdown)" OnClientClick="btnCopy_Click();" />
+                        </Tools>
+                    </f:ContentPanel>
+                </Items>
+            </f:Panel>
+        </Items>
+    </f:Panel>
+    <f:Window ID="winsetup" EnableIFrame="true" Title="设置" IconFont="@IconFont._Gear"
+              Width="600" Height="800" IFrameUrl="@Url.Page("SetUp")"
+              Hidden="true">
+    </f:Window>
+    <f:Window ID="winnew" EnableIFrame="true" Title="新增" IconFont="@IconFont._Edit"
+              Width="600" Height="450" IFrameUrl="@Url.Page("EditNew")"
+              Hidden="true">
+    </f:Window>
+}
+
+@section script {
+    <script src="~/js/signalR.js"></script>
+    <script src="~/js/marked.min.js"></script>
+    <script>
+        F.ready(() => {
+            F.ui.Grid1.ReLoad = () => {
+                api.Page_Load();
+            }
+            F.ui.Grid2.ReLoad = (id) => {
+                api.ReLoadGrid2(id);
+            }
+            F.ui.codePanel.SetText = (msg) => {
+                F.ui.codePanel.codeText = msg;
+                const htmlContent = markedAPI(msg);
+                document.getElementById('codePanel_Content').innerHTML = htmlContent;
+            }
+            window.top.hub.on('SaveGCR_B1', () => {
+                F.ui.Grid1.ReLoad();
+            })
+
+            F.ui.Grid1.el.on("click", "li.f-grid-card-row", function () {
+                let id = F.ui.Grid1.getSelectedRow();
+                F.ui.Grid2.ReLoad(id);
+            })
+        })
+        //#region 绘制
+        function renderCard(params) {
+            let rowId = params.rowData.id;
+            let renderer = params.renderer;
+            let { GCR_B1_10, GCR_B1_20, GCR_B1_30, GCR_B1_AUTOID } = params.rowData.values;
+            let html = new carhtml(rowId);
+            html.setTitle(GCR_B1_10).setBody(GCR_B1_20, GCR_B1_30);
+            return html.toHtml(this);
+        }
+
+
+        class carhtml {
+            constructor(dataid) {
+                this._dataid = dataid;
+
+                this.btns = [
+                    //修改
+                    //{
+                    //    icon: "pencil",
+                    //    handle() {
+                    //        F.ui.winedit.edit();
+                    //    }
+                    //},
+                    //删除
+                    {
+                        icon: "trash",
+                        handle(id) {
+                            F.confirm({
+                                message: "是否确认删除",
+                                ok() {
+                                    api.Delete(id);
+                                }
+                            })
+                        }
+                    }]
+            }
+            setIcon(icon) {
+                this._icon = $(`<i class="cardicon ${icon || "f-icon-sitemap"} f-icon "></i>`);
+                return this;
+            }
+            setTitle(title) {
+                this._title = $(`<div class="title">${title}</div>`);
+                return this;
+            }
+            setBody(start, end) {
+                this._body = $(`<div class="body"><span>${start}</span><span>${end}</span></div>`);
+                return this;
+            }
+            toHtml(grid) {
+                let html = $(`<div dataid='${this._dataid}'></div>`);
+                this._title.prepend(this._icon);
+                html.append(this._title);
+
+                let btn = $(`<div class="btns">`);
+                this.btns.forEach(item => {
+                    let id = GetGuid();
+                    let thisbtn = $(`<i id="${id}" class="f-icon f-iconfont f-iconfont-${item.icon}"></i>`);
+                    btn.append(thisbtn);
+                    setTimeout(() => {
+                        $(`#${id}`).on('click', (e) => {
+                            F.ui.Grid1.selectRow(this._dataid);
+                            item.handle(this._dataid);
+                            e.stopPropagation();
+                        });
+                    })
+                })
+                this._title.append(btn);
+
+                html.append(this._body);
+                html.addClass("card");
+                return html[0].outerHTML;
+            }
+        }
+        //#endregion 绘制
+
+        const api = {
+            Page_Load: () =>
+                F.doPostBack({
+                    eventTarget: 'Grid1',
+                    eventArgument: 'ReLoad',
+                    url: '?handler=Grid1_ReLoad',
+                    params: {
+                        //page: F.ui.messagePanel.pageIndex - 1
+                    }
+                }),
+            Delete: (id) => F.doPostBack({
+                eventTarget: 'Grid1',
+                eventArgument: 'Delete',
+                url: '?handler=Grid1_Delete',
+                params: {
+                    id
+                }
+            }),
+            ReLoadGrid2: (id) => F.doPostBack({
+                eventTarget: 'Grid2',
+                eventArgument: 'ReLoad',
+                url: '?handler=Grid2_ReLoad',
+                params: {
+                    id
+                }
+            })
+        }
+        async function btnCopy_Click() {
+            try {
+                await copyToClipboard(F.ui.codePanel.codeText);
+            } catch (e) {
+                console.error('复制失败:', e);
+            }
+        }
+        // 显示代码和 Mermaid 图表
+        const markedAPI = (msg) => {
+            return marked.use({
+                renderer: {
+                    code(code, type) {
+                        return `<pre><code class="hljs language-${type}">${code}</code></pre>`;
+                    }
+                }
+            })(msg);
+        };
+    </script>
+}

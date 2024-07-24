@@ -1,0 +1,25 @@
+﻿################################################################################
+# 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
+################################################################################
+
+/.back_GitCommitReport
+/.vs
+/GCR.Model/obj
+/GCR.Model/bin/Debug/net8.0
+/GCR.Commons/bin/Debug/net8.0
+/GCR.BLL/bin/Debug/net8.0
+/GCR.BLL/obj
+/GCR.Commons/obj
+/GCR.UIControl/bin/Debug/net8.0
+/GCR.UIControl/obj
+/GCR.Web/bin/Debug/net8.0
+/GCR.Web/obj
+/GCR.Web/helpconfig.Development.json
+/GCR.Web/DataBase/database.db
+/GCR.BLL/bin/Release/net8.0
+/GCR.Commons/bin/Release/net8.0
+/GCR.Model/bin/Release/net8.0
+/GCR.UIControl/bin/Release/net8.0
+/GCR.Web/bin/Release/net8.0/win-x64
+/GCR.Web/bin/Release/net8.0/linux-x64
+/GCR.Model/GitHubTest.http
