@@ -6,6 +6,9 @@
 
 [下载](https://gitee.com/shixixiyue/git-commit-report/releases)
 
+[在线体验](https://gitreport.shizhuoran.top/)
+
+
 ### 1.1 配置 `helpconfig.json`
 
 可以自己接个kimi
