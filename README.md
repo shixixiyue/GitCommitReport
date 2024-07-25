@@ -8,6 +8,25 @@
 
 [在线体验](https://gitreport.shizhuoran.top/)
 
+### docker
+
+可以docker拉取到本地
+
+compose.yaml
+
+```
+version: "3.8"
+services:
+  gitreport:
+    restart: unless-stopped
+    image: 935732994/gitcommitreport
+    ports:
+      - 8004:9091
+    environment:
+      - MODEL=gpt-4o-mini
+      - URL=https://api.chatanywhere.tech/v1/chat/completions
+      - KEY=sk-XXXX
+```
 
 ### 1.1 配置 `helpconfig.json`
 
