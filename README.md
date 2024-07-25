@@ -25,6 +25,12 @@
 
 ### 1.2 配置用户名和Token
 
+Gitee:设置-安全设置-私人令牌
+
+Gitea:设置-应用-生成令牌
+
+GitHub:Settings-Developer settings-Personal access tokens-Tokens(classic)
+
 ![](https://blog.shizhuoran.top/static/img/4104c52311e4e45aeec6855e6a62f019.02.webp)
 
 ### 1.3 新建项目
